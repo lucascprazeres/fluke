@@ -1,0 +1,13 @@
+{
+  "name": "fluke-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "tsnd ./src --ignoreWatch node_modules --transileOnly"
+  },
+  "devDependencies": {
+    "ts-node-dev": "^1.1.1",
+    "typescript": "^4.1.4"
+  }
+}
