@@ -15,6 +15,8 @@ export default class CustomerController {
       password,
     });
 
+    delete customer.password;
+
     return response.json(customer);
   }
 }
