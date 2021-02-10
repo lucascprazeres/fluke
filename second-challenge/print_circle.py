@@ -10,7 +10,7 @@ def print_circle_with_radius_of(radius):
         for x in range(1, diameter+1):
             pos_y = (y-radius)**2
             pos_x = (x-radius)**2
-            if abs(pos_x + pos_y) < radius**2:
+            if pos_x + pos_y < radius**2:
                 print('* ', end="")
             else:
                 if x == diameter:
@@ -19,4 +19,4 @@ def print_circle_with_radius_of(radius):
                     print('  ', end="")
 
 
-print_circle_with_radius_of(5)
+print_circle_with_radius_of(10)
