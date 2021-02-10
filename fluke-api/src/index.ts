@@ -1,9 +1,14 @@
 import 'dotenv/config';
-import client from './database/connection';
+import express from 'express';
+import cors from 'cors';
+import routes from './routes';
 
-(async function main() {
-  await client.connect();
-  const dbs = await client.db().admin().listDatabases();
-  console.log(dbs);
-  await client.close();
-})();
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+app.use(routes);
+
+const port = 3333;
+
+app.listen(port, () => console.log(`server up on port ${port}!`));
