@@ -1,4 +1,4 @@
-export interface CreateCustomer {
+export interface ICreateCustomer {
   name: string;
   email: string;
   CPF: string;
@@ -6,19 +6,24 @@ export interface CreateCustomer {
   password: string;
 }
 
-interface PacketOrder {
+interface IPacketOrder {
   gp: number;
   minutes: number;
   orderedAt: Date;
 }
 
-export interface Customer {
+export interface ICustomer {
   _id: Record<string, 'unknow'>; // similar to the "object" type
   name: string;
   email: string;
   CPF: string;
   phonenumber: string;
   password?: string;
-  availablePackets: Omit<PacketOrder, 'orderedAt'>;
-  orderedPackets: PacketOrder[];
+  availablePackets: Omit<IPacketOrder, 'orderedAt'>;
+  orderedPackets: IPacketOrder[];
+}
+
+export interface ICustomersRepository {
+  create(data: ICreateCustomer): Promise<ICustomer>;
+  findByProperty(key: string, value: string): Promise<ICustomer | undefined>;
 }

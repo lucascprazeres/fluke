@@ -1,3 +1,4 @@
+import { container } from 'tsyringe';
 import { Request, Response } from 'express';
 import RegisterNewCustomerService from '../services/RegisterNewCustomerService';
 
@@ -6,7 +7,7 @@ export default class CustomerController {
     try {
       const { name, email, CPF, phonenumber, password } = request.body;
 
-      const registerNewCustomer = new RegisterNewCustomerService();
+      const registerNewCustomer = container.resolve(RegisterNewCustomerService);
 
       const customer = await registerNewCustomer.execute({
         name,

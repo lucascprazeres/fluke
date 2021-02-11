@@ -1,9 +1,13 @@
 import { hash } from 'bcryptjs';
 import dbclient from '../database/connection';
-import { CreateCustomer, Customer } from '../interfaces';
+import {
+  ICreateCustomer,
+  ICustomer,
+  ICustomersRepository,
+} from '../interfaces';
 
-export default class CustomersRepository {
-  async create(data: CreateCustomer): Promise<Customer> {
+export default class CustomersRepository implements ICustomersRepository {
+  async create(data: ICreateCustomer): Promise<ICustomer> {
     let customer;
     try {
       const encryptedPassword = await hash(data.password, 8);
@@ -34,7 +38,7 @@ export default class CustomersRepository {
   async findByProperty(
     key: string,
     value: string,
-  ): Promise<Customer | undefined> {
+  ): Promise<ICustomer | undefined> {
     let customer;
     try {
       customer = await dbclient

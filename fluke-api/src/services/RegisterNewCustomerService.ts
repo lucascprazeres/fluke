@@ -1,11 +1,19 @@
-import { Customer, CreateCustomer } from '../interfaces';
-import CustomersRepository from '../repositories/CustomersRepository';
+import { inject, injectable } from 'tsyringe';
+import {
+  ICustomer,
+  ICreateCustomer,
+  ICustomersRepository,
+} from '../interfaces';
 
+@injectable()
 export default class RegisterNewCustomerService {
-  async execute(data: CreateCustomer): Promise<Customer> {
-    const customersRepository = new CustomersRepository();
+  constructor(
+    @inject('CustomersRepository')
+    private customersRepository: ICustomersRepository,
+  ) {}
 
-    const foundCustomerByCPF = await customersRepository.findByProperty(
+  async execute(data: ICreateCustomer): Promise<ICustomer> {
+    const foundCustomerByCPF = await this.customersRepository.findByProperty(
       'CPF',
       data.CPF,
     );
@@ -14,7 +22,7 @@ export default class RegisterNewCustomerService {
       throw new Error('This CPF is already taken');
     }
 
-    const foundCustomerByEmail = await customersRepository.findByProperty(
+    const foundCustomerByEmail = await this.customersRepository.findByProperty(
       'email',
       data.email,
     );
@@ -23,7 +31,7 @@ export default class RegisterNewCustomerService {
       throw new Error('This E-mail is already taken');
     }
 
-    const customer = await customersRepository.create({
+    const customer = await this.customersRepository.create({
       name: data.name,
       email: data.email,
       CPF: data.CPF,
