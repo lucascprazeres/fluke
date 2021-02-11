@@ -1,15 +1,17 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import AuthenticateUserService from '../services/AuthenticateUserService';
+import AuthenticateCustomerService from '../services/AuthenticateCustomerService';
 
 export default class SessionController {
   async create(request: Request, response: Response): Promise<Response> {
     try {
       const { CPF, password } = request.body;
 
-      const authenticateUser = container.resolve(AuthenticateUserService);
+      const authenticateCustomer = container.resolve(
+        AuthenticateCustomerService,
+      );
 
-      const { _id, token } = await authenticateUser.execute({
+      const { _id, token } = await authenticateCustomer.execute({
         CPF,
         password,
       });

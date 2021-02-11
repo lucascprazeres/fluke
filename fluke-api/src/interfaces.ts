@@ -35,7 +35,7 @@ export interface IRegisterNewCostumerService {
   execute(data: ICreateCustomer): Promise<ICustomer>;
 }
 
-export interface IAuthenticateUser {
+export interface IAuthenticateCustomer {
   CPF: string;
   password: string;
 }
@@ -45,6 +45,6 @@ export interface IAuthenticationResponse {
   token: string;
 }
 
-export interface IAuthenticateUserService {
-  execute(data: IAuthenticateUser): Promise<IAuthenticationResponse>;
+export interface IAuthenticateCustomerService {
+  execute(data: IAuthenticateCustomer): Promise<IAuthenticationResponse>;
 }

@@ -2,21 +2,21 @@ import { inject, injectable } from 'tsyringe';
 import { compare } from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import {
-  IAuthenticateUser,
-  IAuthenticateUserService,
+  IAuthenticateCustomer,
+  IAuthenticateCustomerService,
   IAuthenticationResponse,
   ICustomersRepository,
 } from '../interfaces';
 
 @injectable()
-export default class AuthenticateUserService
-  implements IAuthenticateUserService {
+export default class AuthenticateCustomerService
+  implements IAuthenticateCustomerService {
   constructor(
     @inject('CustomersRepository')
     private customersRepository: ICustomersRepository,
   ) {}
 
-  async execute(data: IAuthenticateUser): Promise<IAuthenticationResponse> {
+  async execute(data: IAuthenticateCustomer): Promise<IAuthenticationResponse> {
     const { CPF, password } = data;
 
     const foundCustomer = await this.customersRepository.findByProperty(
