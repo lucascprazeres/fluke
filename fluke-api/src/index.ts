@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import 'dotenv/config';
 import './dependencies';
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import { errors as celebrateModuleErrors } from 'celebrate';
 import 'express-async-errors';
@@ -16,8 +16,14 @@ app.use(routes);
 
 app.use(celebrateModuleErrors());
 
-const port = 3333;
+app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
+  return response.status(400).json({
+    status: 'error',
+    message: err.message,
+  });
+});
 
+const port = 3333;
 app.listen(port, async () => {
   await dbclient.connect();
   console.log(`server up on port ${port}!`);

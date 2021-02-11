@@ -38,7 +38,7 @@ export default class AuthenticateCustomerService
 
     const { _id } = foundCustomer;
 
-    const { secret, expiration } = authConfig;
+    const { secret, expiration } = authConfig.jwt;
 
     const token = jwt.sign({}, secret, {
       subject: String(_id),
