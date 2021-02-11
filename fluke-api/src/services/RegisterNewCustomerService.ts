@@ -3,10 +3,12 @@ import {
   ICustomer,
   ICreateCustomer,
   ICustomersRepository,
+  IRegisterNewCostumerService,
 } from '../interfaces';
 
 @injectable()
-export default class RegisterNewCustomerService {
+export default class RegisterNewCustomerService
+  implements IRegisterNewCostumerService {
   constructor(
     @inject('CustomersRepository')
     private customersRepository: ICustomersRepository,

@@ -2,9 +2,11 @@ import { Router } from 'express';
 import { celebrate, Segments, Joi } from 'celebrate';
 
 import CustomerController from './controllers/CustomerController';
+import SessionController from './controllers/SessionController';
 
 const routes = Router();
 const customerController = new CustomerController();
+const sessionController = new SessionController();
 
 const createCustomerValidationSchema = {
   [Segments.BODY]: {
@@ -21,6 +23,8 @@ routes.post(
   celebrate(createCustomerValidationSchema, { abortEarly: false }),
   customerController.create,
 );
+
+routes.post('/authenticate', sessionController.create);
 
 routes.get('/pipipi', (request, response) => {
   return response.json({ message: 'popopo' });

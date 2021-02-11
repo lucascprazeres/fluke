@@ -30,3 +30,21 @@ export interface ICustomersRepository {
     value: string,
   ): Promise<ICustomer | undefined>;
 }
+
+export interface IRegisterNewCostumerService {
+  execute(data: ICreateCustomer): Promise<ICustomer>;
+}
+
+export interface IAuthenticateUser {
+  CPF: string;
+  password: string;
+}
+
+export interface IAuthenticationResponse {
+  _id: Record<string, 'unknow'>;
+  token: string;
+}
+
+export interface IAuthenticateUserService {
+  execute(data: IAuthenticateUser): Promise<IAuthenticationResponse>;
+}

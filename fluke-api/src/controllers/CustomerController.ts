@@ -21,6 +21,7 @@ export default class CustomerController {
 
       return response.json(customer);
     } catch (err) {
+      console.log(err);
       return response
         .status(400)
         .json({ status: 'error', message: err.message });
