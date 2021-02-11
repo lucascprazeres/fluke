@@ -26,10 +26,11 @@ export default class AuthenticateCustomerService
 
     if (!foundCustomer) throw new Error('Wrong CPF or password.');
 
-    const passwordsMatch = await compare(
-      password,
-      foundCustomer.password || '',
-    );
+    // the customer interface defines 'password' as optional, so it is necessary
+    // to force the 'string only' type
+    foundCustomer.password = foundCustomer.password || '';
+
+    const passwordsMatch = await compare(password, foundCustomer.password);
 
     if (!passwordsMatch) throw new Error('Wrong CPF or password.');
 

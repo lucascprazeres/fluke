@@ -1,3 +1,5 @@
+import { ObjectId } from 'mongodb';
+
 export interface ICreateCustomer {
   name: string;
   email: string;
@@ -13,7 +15,7 @@ interface IPacketOrder {
 }
 
 export interface ICustomer {
-  _id: Record<string, 'unknow'>; // similar to the "object" type
+  _id: ObjectId; // similar to the "object" type
   name: string;
   email: string;
   CPF: string;
@@ -41,7 +43,7 @@ export interface IAuthenticateCustomer {
 }
 
 export interface IAuthenticationResponse {
-  _id: Record<string, 'unknow'>;
+  _id: ObjectId;
   token: string;
 }
 
