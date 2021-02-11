@@ -1,6 +1,7 @@
 import { MongoClient } from 'mongodb';
+import databaseConfig from '../config/databaseConfig';
 
-const client = new MongoClient(process.env.MONGODB_URL || '', {
+const client = new MongoClient(databaseConfig.url, {
   useUnifiedTopology: true,
   useNewUrlParser: true,
 });

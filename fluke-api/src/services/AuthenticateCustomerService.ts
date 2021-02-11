@@ -8,6 +8,8 @@ import {
   ICustomersRepository,
 } from '../interfaces';
 
+import authConfig from '../config/authConfig';
+
 @injectable()
 export default class AuthenticateCustomerService
   implements IAuthenticateCustomerService {
@@ -36,9 +38,11 @@ export default class AuthenticateCustomerService
 
     const { _id } = foundCustomer;
 
-    const token = jwt.sign({}, 'temporary_secret', {
+    const { secret, expiration } = authConfig;
+
+    const token = jwt.sign({}, secret, {
       subject: String(_id),
-      expiresIn: '2d',
+      expiresIn: expiration,
     });
 
     return { _id, token };
