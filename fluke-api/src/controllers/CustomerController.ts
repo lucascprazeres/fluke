@@ -7,6 +7,28 @@ export default class CustomerController {
 
     const customersRepository = new CustomersRepository();
 
+    const foundCustomerByCPF = await customersRepository.findByProperty(
+      'CPF',
+      CPF,
+    );
+
+    if (foundCustomerByCPF) {
+      return response
+        .status(400)
+        .json({ status: 'error', message: 'This CPF is already taken' });
+    }
+
+    const foundCustomerByEmail = await customersRepository.findByProperty(
+      'email',
+      email,
+    );
+
+    if (foundCustomerByEmail) {
+      return response
+        .status(400)
+        .json({ status: 'error', message: 'This E-mail is already taken' });
+    }
+
     const customer = await customersRepository.create({
       name,
       email,

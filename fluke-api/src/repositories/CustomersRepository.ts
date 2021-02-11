@@ -6,8 +6,6 @@ export default class CustomersRepository {
   async create(data: CreateCustomer): Promise<Customer> {
     let customer;
     try {
-      await dbclient.connect();
-
       const encryptedPassword = await hash(data.password, 8);
 
       const queryResult = await dbclient
@@ -25,12 +23,26 @@ export default class CustomersRepository {
           },
           orderedPackets: [],
         });
-
-      await dbclient.close();
-
       [customer] = queryResult.ops;
     } catch (err) {
       console.log(err.message);
+    }
+
+    return customer;
+  }
+
+  async findByProperty(
+    key: string,
+    value: string,
+  ): Promise<Customer | undefined> {
+    let customer;
+    try {
+      customer = await dbclient
+        .db()
+        .collection('customers')
+        .findOne({ [key]: value });
+    } catch (err) {
+      console.log(err);
     }
 
     return customer;

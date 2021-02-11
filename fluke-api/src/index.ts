@@ -5,6 +5,7 @@ import cors from 'cors';
 import { errors as celebrateModuleErrors } from 'celebrate';
 import 'express-async-errors';
 import routes from './routes';
+import dbclient from './database/connection';
 
 const app = express();
 
@@ -16,4 +17,7 @@ app.use(celebrateModuleErrors());
 
 const port = 3333;
 
-app.listen(port, () => console.log(`server up on port ${port}!`));
+app.listen(port, async () => {
+  await dbclient.connect();
+  console.log(`server up on port ${port}!`);
+});
