@@ -19,11 +19,14 @@ export interface ICustomer {
   CPF: string;
   phonenumber: string;
   password?: string;
-  availablePackets: Omit<IPacketOrder, 'orderedAt'>;
-  orderedPackets: IPacketOrder[];
+  availablePackages: { gb: number; minutes: number };
+  orderedPackages: IPacketOrder[];
 }
 
 export interface ICustomersRepository {
   create(data: ICreateCustomer): Promise<ICustomer>;
-  findByProperty(key: string, value: string): Promise<ICustomer | undefined>;
+  findByProperty(
+    key: keyof ICustomer,
+    value: string,
+  ): Promise<ICustomer | undefined>;
 }

@@ -21,11 +21,11 @@ export default class CustomersRepository implements ICustomersRepository {
           CPF: data.CPF,
           phonenumber: data.phonenumber,
           password: encryptedPassword,
-          availablePackets: {
+          availablePackages: {
             gb: 0,
             minutes: 0,
           },
-          orderedPackets: [],
+          orderedPackages: [],
         });
       [customer] = queryResult.ops;
     } catch (err) {
@@ -36,7 +36,7 @@ export default class CustomersRepository implements ICustomersRepository {
   }
 
   async findByProperty(
-    key: string,
+    key: keyof ICustomer,
     value: string,
   ): Promise<ICustomer | undefined> {
     let customer;
