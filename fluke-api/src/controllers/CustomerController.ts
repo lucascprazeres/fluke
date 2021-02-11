@@ -1,44 +1,28 @@
 import { Request, Response } from 'express';
-import CustomersRepository from '../repositories/CustomersRepository';
+import RegisterNewCustomerService from '../services/RegisterNewCustomerService';
 
 export default class CustomerController {
   async create(request: Request, response: Response): Promise<Response> {
-    const { name, email, CPF, phonenumber, password } = request.body;
+    try {
+      const { name, email, CPF, phonenumber, password } = request.body;
 
-    const customersRepository = new CustomersRepository();
+      const registerNewCustomer = new RegisterNewCustomerService();
 
-    const foundCustomerByCPF = await customersRepository.findByProperty(
-      'CPF',
-      CPF,
-    );
+      const customer = await registerNewCustomer.execute({
+        name,
+        email,
+        CPF,
+        phonenumber,
+        password,
+      });
 
-    if (foundCustomerByCPF) {
+      delete customer.password;
+
+      return response.json(customer);
+    } catch (err) {
       return response
         .status(400)
-        .json({ status: 'error', message: 'This CPF is already taken' });
+        .json({ status: 'error', message: err.message });
     }
-
-    const foundCustomerByEmail = await customersRepository.findByProperty(
-      'email',
-      email,
-    );
-
-    if (foundCustomerByEmail) {
-      return response
-        .status(400)
-        .json({ status: 'error', message: 'This E-mail is already taken' });
-    }
-
-    const customer = await customersRepository.create({
-      name,
-      email,
-      CPF,
-      phonenumber,
-      password,
-    });
-
-    delete customer.password;
-
-    return response.json(customer);
   }
 }
