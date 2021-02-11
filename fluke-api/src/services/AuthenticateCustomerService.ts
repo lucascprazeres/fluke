@@ -1,6 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 import { compare } from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import AppError from '../errors/AppError';
 import {
   IAuthenticateCustomer,
   IAuthenticateCustomerService,
@@ -26,7 +27,7 @@ export default class AuthenticateCustomerService
       CPF,
     );
 
-    if (!foundCustomer) throw new Error('Wrong CPF or password.');
+    if (!foundCustomer) throw new AppError(400, 'Wrong CPF or password.');
 
     // the customer interface defines 'password' as optional, so it is necessary
     // to force the 'string only' type
@@ -34,7 +35,7 @@ export default class AuthenticateCustomerService
 
     const passwordsMatch = await compare(password, foundCustomer.password);
 
-    if (!passwordsMatch) throw new Error('Wrong CPF or password.');
+    if (!passwordsMatch) throw new AppError(400, 'Wrong CPF or password.');
 
     const { _id } = foundCustomer;
 

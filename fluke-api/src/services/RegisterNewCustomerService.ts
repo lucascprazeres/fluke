@@ -1,4 +1,5 @@
 import { inject, injectable } from 'tsyringe';
+import AppError from '../errors/AppError';
 import {
   ICustomer,
   ICreateCustomer,
@@ -21,7 +22,7 @@ export default class RegisterNewCustomerService
     );
 
     if (foundCustomerByCPF) {
-      throw new Error('This CPF is already taken');
+      throw new AppError(400, 'This CPF is already taken');
     }
 
     const foundCustomerByEmail = await this.customersRepository.findByProperty(
@@ -30,7 +31,7 @@ export default class RegisterNewCustomerService
     );
 
     if (foundCustomerByEmail) {
-      throw new Error('This E-mail is already taken');
+      throw new AppError(400, 'This E-mail is already taken');
     }
 
     const customer = await this.customersRepository.create({
