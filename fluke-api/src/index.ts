@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import 'dotenv/config';
+import './dependencies';
 import express from 'express';
 import cors from 'cors';
 import { errors as celebrateModuleErrors } from 'celebrate';
