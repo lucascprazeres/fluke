@@ -5,10 +5,12 @@ import ensureAuthenticated from './middlewares/ensureAuthenticated';
 
 import CustomerController from './controllers/CustomerController';
 import SessionController from './controllers/SessionController';
+import ProductOrdersController from './controllers/ProductOrdersController';
 
 const routes = Router();
 const customerController = new CustomerController();
 const sessionController = new SessionController();
+const productOrdersController = new ProductOrdersController();
 
 const createCustomerValidationSchema = {
   [Segments.BODY]: {
@@ -27,6 +29,12 @@ routes.post(
 );
 
 routes.post('/authenticate', sessionController.create);
+
+routes.post(
+  '/productsOrder',
+  ensureAuthenticated,
+  productOrdersController.create,
+);
 
 routes.get('/pipipi', (request, response) => {
   return response.json({ message: 'popopo' });

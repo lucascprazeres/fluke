@@ -50,3 +50,25 @@ export interface IAuthenticationResponse {
 export interface IAuthenticateCustomerService {
   execute(data: IAuthenticateCustomer): Promise<IAuthenticationResponse>;
 }
+
+export interface ICreateOrder {
+  customerId: ObjectId;
+  gb: number;
+  minutes: number;
+}
+
+export interface IOrder {
+  customerId: ObjectId;
+  gb: number;
+  minutes: number;
+  orderedAt: Date;
+}
+
+export interface IProductOrdersRepository {
+  create(data: ICreateOrder): Promise<IOrder>;
+  // listAllFromCustomer(id: ObjectId): Promise<IOrder[]>;
+}
+
+export interface IPlaceOrderService {
+  execute(data: ICreateOrder): Promise<IOrder>;
+}
