@@ -1,6 +1,7 @@
 import { ICustomersRepository } from '../../interfaces';
 import FakeCustomersRepository from '../../__mock__/FakeCustomersRepository';
 import RegisterNewCustomerService from '../../services/RegisterNewCustomerService';
+import AppError from '../../errors/AppError';
 
 let customersRepository: ICustomersRepository;
 let registerNewCustomer: RegisterNewCustomerService;
@@ -49,7 +50,7 @@ describe('RegisterNewCustomerService', () => {
 
     await expect(
       registerNewCustomer.execute(secondCustomerData),
-    ).rejects.toThrow('This CPF is already taken');
+    ).rejects.toBeInstanceOf(AppError);
   });
 
   it('should not be able to create a new customer with same E-mail', async () => {
@@ -73,6 +74,6 @@ describe('RegisterNewCustomerService', () => {
 
     await expect(
       registerNewCustomer.execute(secondCustomerData),
-    ).rejects.toThrow('This E-mail is already taken');
+    ).rejects.toBeInstanceOf(AppError);
   });
 });

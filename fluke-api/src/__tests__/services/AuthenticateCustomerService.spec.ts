@@ -1,3 +1,4 @@
+import AppError from '../../errors/AppError';
 import {
   IAuthenticateCustomerService,
   ICustomersRepository,
@@ -46,13 +47,13 @@ describe('AuthenticateCustomerService', () => {
         CPF: '111.111.111-11',
         password: 'wrong password',
       }),
-    ).rejects.toThrow('Wrong CPF or password.');
+    ).rejects.toBeInstanceOf(AppError);
 
     await expect(
       authenticateCustomer.execute({
         CPF: '222.222.222-22',
         password: 'secret',
       }),
-    ).rejects.toThrow('Wrong CPF or password.');
+    ).rejects.toBeInstanceOf(AppError);
   });
 });
