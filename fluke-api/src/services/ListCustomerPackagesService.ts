@@ -1,5 +1,4 @@
 import { inject, injectable } from 'tsyringe';
-import { ObjectId } from 'mongodb';
 import {
   ICustomersRepository,
   IListcustomerPackagesService,

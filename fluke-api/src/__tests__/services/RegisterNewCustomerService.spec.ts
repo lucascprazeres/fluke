@@ -26,7 +26,6 @@ describe('RegisterNewCustomerService', () => {
     expect(customer.CPF).toBe(customerData.CPF);
     expect(customer.email).toBe(customerData.email);
     expect(customer).toHaveProperty('availablePackages');
-    expect(customer).toHaveProperty('orderedPackages');
   });
 
   it('should not be able to create a new customer with same CPF', async () => {
