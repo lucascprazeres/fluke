@@ -6,11 +6,13 @@ import ensureAuthenticated from './middlewares/ensureAuthenticated';
 import CustomerController from './controllers/CustomerController';
 import SessionController from './controllers/SessionController';
 import ProductOrdersController from './controllers/ProductOrdersController';
+import PortabilityRequestController from './controllers/PortabilityRequestController';
 
 const routes = Router();
 const customerController = new CustomerController();
 const sessionController = new SessionController();
 const productOrdersController = new ProductOrdersController();
+const portabiltyRequestController = new PortabilityRequestController();
 
 const createCustomerValidationSchema = {
   [Segments.BODY]: {
@@ -36,6 +38,14 @@ const productsOrderValidationSchema = {
   },
 };
 
+const portabiltyRequestValidationSchema = {
+  [Segments.BODY]: {
+    name: Joi.string().required(),
+    CPF: Joi.string().required(),
+    phonenumber: Joi.string().required(),
+  },
+};
+
 routes.post(
   '/registerNewCostumer',
   celebrate(createCustomerValidationSchema, { abortEarly: false }),
@@ -53,6 +63,13 @@ routes.post(
   celebrate(productsOrderValidationSchema),
   ensureAuthenticated,
   productOrdersController.create,
+);
+
+routes.post(
+  '/portabilityRequest',
+  celebrate(portabiltyRequestValidationSchema),
+  ensureAuthenticated,
+  portabiltyRequestController.create,
 );
 
 routes.get('/currentPackage', ensureAuthenticated, customerController.show);
