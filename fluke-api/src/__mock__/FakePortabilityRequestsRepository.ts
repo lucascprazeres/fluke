@@ -28,6 +28,12 @@ export default class FakePortabilityRequestRepository
     return portabilityRequest;
   }
 
+  async findAllFromCustomer(
+    customerId: string,
+  ): Promise<IPortabilityRequest[]> {
+    return this.portabilityRequests.filter(pr => pr.customerId === customerId);
+  }
+
   async findByPhonenumber(
     phonenumber: string,
   ): Promise<IPortabilityRequest | undefined> {
