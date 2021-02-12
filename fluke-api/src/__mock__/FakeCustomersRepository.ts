@@ -4,6 +4,7 @@ import {
   ICreateCustomer,
   ICustomer,
   ICustomersRepository,
+  IUpdateCurrentPackages,
 } from '../interfaces';
 
 export default class FakeCustomersRepostory implements ICustomersRepository {
@@ -37,5 +38,20 @@ export default class FakeCustomersRepostory implements ICustomersRepository {
     value: string,
   ): Promise<ICustomer | undefined> {
     return this.customers.find(customer => customer[key] === value);
+  }
+
+  async incrementCurrentPackages({
+    customerId,
+    gb,
+    minutes,
+  }: IUpdateCurrentPackages): Promise<ICustomer> {
+    const customerIndex = this.customers.findIndex(c =>
+      c._id.equals(customerId),
+    );
+
+    this.customers[customerIndex].availablePackages.gb += gb;
+    this.customers[customerIndex].availablePackages.minutes += minutes;
+
+    return this.customers[customerIndex];
   }
 }
