@@ -5,7 +5,7 @@ import {
   IProductOrdersRepository,
 } from '../../interfaces/orders';
 import PlaceOrderService from '../../services/PlaceOrderService';
-import FakeCustomersRepostory from '../../__mock__/FakeCustomersRepository';
+import FakeCustomersRepository from '../../__mock__/FakeCustomersRepository';
 import FakeProductOrdersRepository from '../../__mock__/FakeProductOrdersRepository';
 
 let customersRepository: ICustomersRepository;
@@ -14,7 +14,7 @@ let placeOrder: IPlaceOrderService;
 
 describe('PlaceOrderService', () => {
   beforeEach(() => {
-    customersRepository = new FakeCustomersRepostory();
+    customersRepository = new FakeCustomersRepository();
     productOrdersRepository = new FakeProductOrdersRepository(
       customersRepository,
     );

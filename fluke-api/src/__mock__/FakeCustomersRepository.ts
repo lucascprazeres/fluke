@@ -7,7 +7,7 @@ import {
   IUpdateCurrentPackages,
 } from '../interfaces/customers';
 
-export default class FakeCustomersRepostory implements ICustomersRepository {
+export default class FakeCustomersRepository implements ICustomersRepository {
   private customers: ICustomer[] = [];
 
   async create(data: ICreateCustomer): Promise<ICustomer> {

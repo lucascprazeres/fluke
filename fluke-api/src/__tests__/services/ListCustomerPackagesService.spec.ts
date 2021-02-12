@@ -3,7 +3,7 @@ import {
   IListcustomerPackagesService,
 } from '../../interfaces/customers';
 import { IProductOrdersRepository } from '../../interfaces/orders';
-import FakeCustomersRepostory from '../../__mock__/FakeCustomersRepository';
+import FakeCustomersRepository from '../../__mock__/FakeCustomersRepository';
 import FakeProductOrdersRepository from '../../__mock__/FakeProductOrdersRepository';
 import ListCustomerPackagesService from '../../services/ListCustomerPackagesService';
 import AppError from '../../errors/AppError';
@@ -14,7 +14,7 @@ let listCustomerPackages: IListcustomerPackagesService;
 
 describe('ListCustomerPackagesService', () => {
   beforeEach(() => {
-    customersRepository = new FakeCustomersRepostory();
+    customersRepository = new FakeCustomersRepository();
     productOrdersRepository = new FakeProductOrdersRepository(
       customersRepository,
     );

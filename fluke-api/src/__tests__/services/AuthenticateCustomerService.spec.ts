@@ -4,14 +4,14 @@ import {
   ICustomersRepository,
 } from '../../interfaces/customers';
 import AuthenticateCustomerService from '../../services/AuthenticateCustomerService';
-import FakeCustomersRepostory from '../../__mock__/FakeCustomersRepository';
+import FakeCustomersRepository from '../../__mock__/FakeCustomersRepository';
 
 let customersRepository: ICustomersRepository;
 let authenticateCustomer: IAuthenticateCustomerService;
 
 describe('AuthenticateCustomerService', () => {
   beforeEach(() => {
-    customersRepository = new FakeCustomersRepostory();
+    customersRepository = new FakeCustomersRepository();
     authenticateCustomer = new AuthenticateCustomerService(customersRepository);
   });
 
