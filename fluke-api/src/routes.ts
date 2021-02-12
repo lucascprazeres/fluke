@@ -22,16 +22,35 @@ const createCustomerValidationSchema = {
   },
 };
 
+const authenticateCustomerValidationSchema = {
+  [Segments.BODY]: {
+    CPF: Joi.string().required(),
+    password: Joi.string().required(),
+  },
+};
+
+const productsOrderValidationSchema = {
+  [Segments.BODY]: {
+    gb: Joi.number().required(),
+    minutes: Joi.string().required(),
+  },
+};
+
 routes.post(
   '/registerNewCostumer',
   celebrate(createCustomerValidationSchema, { abortEarly: false }),
   customerController.create,
 );
 
-routes.post('/authenticate', sessionController.create);
+routes.post(
+  '/authenticate',
+  celebrate(authenticateCustomerValidationSchema),
+  sessionController.create,
+);
 
 routes.post(
   '/productsOrder',
+  celebrate(productsOrderValidationSchema),
   ensureAuthenticated,
   productOrdersController.create,
 );
