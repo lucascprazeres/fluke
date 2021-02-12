@@ -8,6 +8,12 @@ export interface ICreateCustomer {
   password: string;
 }
 
+export interface IUpdateCurrentPackages {
+  customerId: ObjectId;
+  gb: number;
+  minutes: number;
+}
+
 interface IPacketOrder {
   gp: number;
   minutes: number;
@@ -31,6 +37,7 @@ export interface ICustomersRepository {
     key: keyof ICustomer,
     value: string,
   ): Promise<ICustomer | undefined>;
+  incrementCurrentPackages(data: IUpdateCurrentPackages): Promise<ICustomer>;
 }
 
 export interface IRegisterNewCostumerService {

@@ -4,4 +4,7 @@ import CustomersRepository from './repositories/CustomersRepository';
 
 container.registerSingleton('CustomersRepository', CustomersRepository);
 
-container.registerSingleton('ProductOrdersRepository', ProductOrdersRepository);
+container.registerInstance(
+  'ProductOrdersRepository',
+  container.resolve(ProductOrdersRepository),
+);

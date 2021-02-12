@@ -4,6 +4,7 @@ import {
   ICreateCustomer,
   ICustomer,
   ICustomersRepository,
+  IUpdateCurrentPackages,
 } from '../interfaces';
 
 export default class CustomersRepository implements ICustomersRepository {
@@ -25,7 +26,6 @@ export default class CustomersRepository implements ICustomersRepository {
             gb: 0,
             minutes: 0,
           },
-          orderedPackages: [],
         });
       [customer] = queryResult.ops;
     } catch (err) {
@@ -50,5 +50,35 @@ export default class CustomersRepository implements ICustomersRepository {
     }
 
     return customer;
+  }
+
+  async incrementCurrentPackages({
+    customerId,
+    gb,
+    minutes,
+  }: IUpdateCurrentPackages): Promise<ICustomer> {
+    const customer = await dbclient
+      .db()
+      .collection('customers')
+      .findOne({
+        $where: ({ _id }: ICustomer) => _id.equals(customerId),
+      });
+
+    const totalGb = customer.availablePackages.gb + gb;
+    const totalMinutes = customer.availablePackages.minutes + minutes;
+
+    const query = { _id: customer._id };
+    const newValues = {
+      $set: {
+        availablePackages: {
+          gb: totalGb,
+          minutes: totalMinutes,
+        },
+      },
+    };
+
+    await dbclient.db().collection('customers').updateOne(query, newValues);
+
+    return {} as ICustomer;
   }
 }
