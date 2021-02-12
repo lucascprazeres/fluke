@@ -1,4 +1,5 @@
 import { hash } from 'bcryptjs';
+import { ObjectId } from 'mongodb';
 import dbclient from '../database/connection';
 import {
   ICreateCustomer,
@@ -33,6 +34,15 @@ export default class CustomersRepository implements ICustomersRepository {
     }
 
     return customer;
+  }
+
+  async remove(customerId: ObjectId): Promise<void> {
+    await dbclient
+      .db()
+      .collection('customers')
+      .findOneAndDelete({
+        _id: { $where: ({ _id }: ICustomer) => _id.equals(customerId) },
+      });
   }
 
   async findByProperty(

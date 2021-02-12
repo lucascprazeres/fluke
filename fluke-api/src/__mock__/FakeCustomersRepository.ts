@@ -37,7 +37,9 @@ export default class FakeCustomersRepostory implements ICustomersRepository {
     key: keyof ICustomer,
     value: string,
   ): Promise<ICustomer | undefined> {
-    return this.customers.find(customer => customer[key] === value);
+    return this.customers.find(
+      customer => String(customer[key]) === String(value),
+    );
   }
 
   async incrementCurrentPackages({
@@ -53,5 +55,13 @@ export default class FakeCustomersRepostory implements ICustomersRepository {
     this.customers[customerIndex].availablePackages.minutes += minutes;
 
     return this.customers[customerIndex];
+  }
+
+  async remove(customerId: ObjectId): Promise<void> {
+    const removedIndex = this.customers.findIndex(c =>
+      c._id.equals(customerId),
+    );
+
+    this.customers.splice(removedIndex, 1);
   }
 }

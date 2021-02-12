@@ -38,6 +38,7 @@ export interface ICustomersRepository {
     value: string,
   ): Promise<ICustomer | undefined>;
   incrementCurrentPackages(data: IUpdateCurrentPackages): Promise<ICustomer>;
+  remove(customerId: ObjectId): Promise<void>;
 }
 
 export interface IRegisterNewCostumerService {
