@@ -30,6 +30,19 @@ class PortabilityRequestsRepository implements IPortabilityRequestsRepository {
     return portablityRequest;
   }
 
+  async findAllFromCustomer(
+    customerId: string,
+  ): Promise<IPortabilityRequest[]> {
+    const result = await dbclient
+      .db()
+      .collection('portability_requests')
+      .find({ customerId });
+
+    const portabilities = result.toArray();
+
+    return portabilities;
+  }
+
   async findByPhonenumber(
     phonenumber: string,
   ): Promise<IPortabilityRequest | undefined> {

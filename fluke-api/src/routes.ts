@@ -12,7 +12,7 @@ const routes = Router();
 const customerController = new CustomerController();
 const sessionController = new SessionController();
 const productOrdersController = new ProductOrdersController();
-const portabiltyRequestController = new PortabilityRequestController();
+const portabilityRequestController = new PortabilityRequestController();
 
 const createCustomerValidationSchema = {
   [Segments.BODY]: {
@@ -69,10 +69,16 @@ routes.post(
   '/portabilityRequest',
   celebrate(portabiltyRequestValidationSchema),
   ensureAuthenticated,
-  portabiltyRequestController.create,
+  portabilityRequestController.create,
 );
 
 routes.get('/currentPackage', ensureAuthenticated, customerController.show);
+
+routes.get(
+  '/portabilities',
+  ensureAuthenticated,
+  portabilityRequestController.index,
+);
 
 routes.get('/pipipi', (request, response) => {
   return response.json({ message: 'popopo' });

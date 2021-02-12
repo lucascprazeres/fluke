@@ -18,8 +18,13 @@ export interface IRequestPortabilityService {
   execute(data: IRequestPortability): Promise<IPortabilityRequest>;
 }
 
+export interface IListPortabilityRequestsService {
+  execute(customerId: string): Promise<IPortabilityRequest[]>;
+}
+
 export interface IPortabilityRequestsRepository {
   create(data: IRequestPortability): Promise<IPortabilityRequest>;
+  findAllFromCustomer(customerId: string): Promise<IPortabilityRequest[]>;
   findByPhonenumber(
     phonenumber: string,
   ): Promise<IPortabilityRequest | undefined>;
