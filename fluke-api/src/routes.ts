@@ -32,7 +32,7 @@ const authenticateCustomerValidationSchema = {
 const productsOrderValidationSchema = {
   [Segments.BODY]: {
     gb: Joi.number().required(),
-    minutes: Joi.string().required(),
+    minutes: Joi.number().required(),
   },
 };
 
@@ -54,6 +54,8 @@ routes.post(
   ensureAuthenticated,
   productOrdersController.create,
 );
+
+routes.get('/currentPackage', ensureAuthenticated, customerController.show);
 
 routes.get('/pipipi', (request, response) => {
   return response.json({ message: 'popopo' });

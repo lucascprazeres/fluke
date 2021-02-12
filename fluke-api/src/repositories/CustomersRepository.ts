@@ -36,16 +36,28 @@ export default class CustomersRepository implements ICustomersRepository {
     return customer;
   }
 
-  async remove(customerId: ObjectId): Promise<void> {
+  async remove(customerId: string): Promise<void> {
+    const id = new ObjectId(customerId);
     await dbclient
       .db()
       .collection('customers')
       .findOneAndDelete({
-        _id: { $where: ({ _id }: ICustomer) => _id.equals(customerId) },
+        _id: { $where: ({ _id }: ICustomer) => _id.equals(id) },
       });
   }
 
-  async findByProperty(
+  async findById(customerId: string): Promise<ICustomer | undefined> {
+    let customer;
+    const id = new ObjectId(customerId);
+    try {
+      customer = await dbclient.db().collection('customers').findOne(id);
+    } catch (err) {
+      console.log(err);
+    }
+    return customer;
+  }
+
+  async findByCommonProperty(
     key: keyof ICustomer,
     value: string,
   ): Promise<ICustomer | undefined> {
@@ -67,12 +79,8 @@ export default class CustomersRepository implements ICustomersRepository {
     gb,
     minutes,
   }: IUpdateCurrentPackages): Promise<ICustomer> {
-    const customer = await dbclient
-      .db()
-      .collection('customers')
-      .findOne({
-        $where: ({ _id }: ICustomer) => _id.equals(customerId),
-      });
+    const id = new ObjectId(customerId);
+    const customer = await dbclient.db().collection('customers').findOne(id);
 
     const totalGb = customer.availablePackages.gb + gb;
     const totalMinutes = customer.availablePackages.minutes + minutes;

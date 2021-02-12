@@ -35,4 +35,12 @@ export default class ProductOrdersRepository
 
     return order;
   }
+
+  async listAllFromCustomer(id: string): Promise<IOrder[]> {
+    const result = dbclient.db().collection('orders').find({ customerId: id });
+
+    const orders = result.toArray();
+
+    return orders;
+  }
 }
