@@ -5,7 +5,7 @@ import {
   ICreateCustomer,
   ICustomersRepository,
   IRegisterNewCostumerService,
-} from '../interfaces';
+} from '../interfaces/customers';
 
 @injectable()
 export default class RegisterNewCustomerService
@@ -16,7 +16,7 @@ export default class RegisterNewCustomerService
   ) {}
 
   async execute(data: ICreateCustomer): Promise<ICustomer> {
-    const foundCustomerByCPF = await this.customersRepository.findByProperty(
+    const foundCustomerByCPF = await this.customersRepository.findByCommonProperty(
       'CPF',
       data.CPF,
     );
@@ -25,7 +25,7 @@ export default class RegisterNewCustomerService
       throw new AppError(400, 'This CPF is already taken');
     }
 
-    const foundCustomerByEmail = await this.customersRepository.findByProperty(
+    const foundCustomerByEmail = await this.customersRepository.findByCommonProperty(
       'email',
       data.email,
     );

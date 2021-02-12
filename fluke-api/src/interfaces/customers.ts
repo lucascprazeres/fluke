@@ -1,4 +1,5 @@
 import { ObjectId } from 'mongodb';
+import { IPacketOrder } from './orders';
 
 export interface ICreateCustomer {
   name: string;
@@ -9,15 +10,9 @@ export interface ICreateCustomer {
 }
 
 export interface IUpdateCurrentPackages {
-  customerId: ObjectId;
+  customerId: string;
   gb: number;
   minutes: number;
-}
-
-interface IPacketOrder {
-  gp: number;
-  minutes: number;
-  orderedAt: Date;
 }
 
 export interface ICustomer {
@@ -28,17 +23,17 @@ export interface ICustomer {
   phonenumber: string;
   password?: string;
   availablePackages: { gb: number; minutes: number };
-  orderedPackages: IPacketOrder[];
 }
 
 export interface ICustomersRepository {
   create(data: ICreateCustomer): Promise<ICustomer>;
-  findByProperty(
+  findById(customerId: string): Promise<ICustomer | undefined>;
+  findByCommonProperty(
     key: keyof ICustomer,
     value: string,
   ): Promise<ICustomer | undefined>;
   incrementCurrentPackages(data: IUpdateCurrentPackages): Promise<ICustomer>;
-  remove(customerId: ObjectId): Promise<void>;
+  remove(customerId: string): Promise<void>;
 }
 
 export interface IRegisterNewCostumerService {
@@ -59,24 +54,12 @@ export interface IAuthenticateCustomerService {
   execute(data: IAuthenticateCustomer): Promise<IAuthenticationResponse>;
 }
 
-export interface ICreateOrder {
-  customerId: ObjectId;
-  gb: number;
-  minutes: number;
+export interface IPackageReport {
+  availablePackages: { gb: number; minutes: number };
+  usedPackages: { gb: number; minutes: number };
+  orderedPackages: IPacketOrder[];
 }
 
-export interface IOrder {
-  customerId: ObjectId;
-  gb: number;
-  minutes: number;
-  orderedAt: Date;
-}
-
-export interface IProductOrdersRepository {
-  create(data: ICreateOrder): Promise<IOrder>;
-  // listAllFromCustomer(id: ObjectId): Promise<IOrder[]>;
-}
-
-export interface IPlaceOrderService {
-  execute(data: ICreateOrder): Promise<IOrder>;
+export interface IListcustomerPackagesService {
+  execute(customerId: string): Promise<IPackageReport>;
 }

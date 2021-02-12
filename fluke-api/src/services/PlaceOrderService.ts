@@ -1,12 +1,12 @@
 import { inject, injectable } from 'tsyringe';
 import AppError from '../errors/AppError';
+import { ICustomersRepository } from '../interfaces/customers';
 import {
   IOrder,
   ICreateOrder,
   IProductOrdersRepository,
   IPlaceOrderService,
-  ICustomersRepository,
-} from '../interfaces';
+} from '../interfaces/orders';
 
 @injectable()
 export default class PlaceOrderService implements IPlaceOrderService {
@@ -22,10 +22,7 @@ export default class PlaceOrderService implements IPlaceOrderService {
       throw new AppError(400, 'Invalid package value request.');
     }
 
-    const foundCustomer = await this.customersRepository.findByProperty(
-      '_id',
-      String(customerId),
-    );
+    const foundCustomer = await this.customersRepository.findById(customerId);
 
     if (!foundCustomer) throw new AppError(400, 'Invalid customer id');
 

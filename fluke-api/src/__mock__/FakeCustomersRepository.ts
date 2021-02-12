@@ -5,7 +5,7 @@ import {
   ICustomer,
   ICustomersRepository,
   IUpdateCurrentPackages,
-} from '../interfaces';
+} from '../interfaces/customers';
 
 export default class FakeCustomersRepostory implements ICustomersRepository {
   private customers: ICustomer[] = [];
@@ -20,8 +20,6 @@ export default class FakeCustomersRepostory implements ICustomersRepository {
       minutes: 0,
     };
 
-    customer.orderedPackages = [];
-
     // the customer interface defines 'password' as optional, so it is necessary
     // to force the 'string only' type
     customer.password = customer.password || '';
@@ -33,7 +31,11 @@ export default class FakeCustomersRepostory implements ICustomersRepository {
     return customer;
   }
 
-  async findByProperty(
+  async findById(customerId: string): Promise<ICustomer | undefined> {
+    return this.customers.find(c => String(c._id) === customerId);
+  }
+
+  async findByCommonProperty(
     key: keyof ICustomer,
     value: string,
   ): Promise<ICustomer | undefined> {
@@ -57,7 +59,7 @@ export default class FakeCustomersRepostory implements ICustomersRepository {
     return this.customers[customerIndex];
   }
 
-  async remove(customerId: ObjectId): Promise<void> {
+  async remove(customerId: string): Promise<void> {
     const removedIndex = this.customers.findIndex(c =>
       c._id.equals(customerId),
     );

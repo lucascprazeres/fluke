@@ -1,9 +1,9 @@
+import { ICustomersRepository } from '../interfaces/customers';
 import {
   ICreateOrder,
-  ICustomersRepository,
   IOrder,
   IProductOrdersRepository,
-} from '../interfaces';
+} from '../interfaces/orders';
 
 export default class FakeProductOrdersRepository
   implements IProductOrdersRepository {
@@ -23,10 +23,7 @@ export default class FakeProductOrdersRepository
       orderedAt: new Date(),
     };
 
-    const customer = await this.customersRepository.findByProperty(
-      '_id',
-      String(customerId),
-    );
+    const customer = await this.customersRepository.findById(customerId);
 
     const totalGb = customer?.availablePackages.gb || 0 + gb;
     const totalMinutes = customer?.availablePackages.minutes || 0 + minutes;
@@ -39,5 +36,9 @@ export default class FakeProductOrdersRepository
     });
 
     return order;
+  }
+
+  async listAllFromCustomer(customerId: string): Promise<IOrder[]> {
+    return this.orders.filter(order => order.customerId === customerId);
   }
 }

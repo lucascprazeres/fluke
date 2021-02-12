@@ -1,9 +1,9 @@
 import AppError from '../../errors/AppError';
+import { ICustomersRepository } from '../../interfaces/customers';
 import {
-  ICustomersRepository,
   IPlaceOrderService,
   IProductOrdersRepository,
-} from '../../interfaces';
+} from '../../interfaces/orders';
 import PlaceOrderService from '../../services/PlaceOrderService';
 import FakeCustomersRepostory from '../../__mock__/FakeCustomersRepository';
 import FakeProductOrdersRepository from '../../__mock__/FakeProductOrdersRepository';
@@ -32,7 +32,7 @@ describe('PlaceOrderService', () => {
       password: 'secret',
     });
 
-    const customerId = customer._id;
+    const customerId = String(customer._id);
 
     const order = await placeOrder.execute({
       customerId,
@@ -53,7 +53,7 @@ describe('PlaceOrderService', () => {
       password: 'secret',
     });
 
-    const customerId = customer._id;
+    const customerId = String(customer._id);
 
     await placeOrder.execute({
       customerId,
@@ -61,10 +61,7 @@ describe('PlaceOrderService', () => {
       minutes: 30,
     });
 
-    const updatedUser = await customersRepository.findByProperty(
-      '_id',
-      String(customer._id),
-    );
+    const updatedUser = await customersRepository.findById(customerId);
 
     expect(updatedUser?.availablePackages.gb).toBe(10);
     expect(updatedUser?.availablePackages.minutes).toBe(30);
@@ -79,9 +76,9 @@ describe('PlaceOrderService', () => {
       password: 'secret',
     });
 
-    const customerId = customer._id;
+    const customerId = String(customer._id);
 
-    await customersRepository.remove(customer._id);
+    await customersRepository.remove(customerId);
 
     await expect(
       placeOrder.execute({
@@ -101,7 +98,7 @@ describe('PlaceOrderService', () => {
       password: 'secret',
     });
 
-    const customerId = customer._id;
+    const customerId = String(customer._id);
 
     await expect(
       placeOrder.execute({

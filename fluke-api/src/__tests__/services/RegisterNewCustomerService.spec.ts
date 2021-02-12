@@ -1,4 +1,4 @@
-import { ICustomersRepository } from '../../interfaces';
+import { ICustomersRepository } from '../../interfaces/customers';
 import FakeCustomersRepository from '../../__mock__/FakeCustomersRepository';
 import RegisterNewCustomerService from '../../services/RegisterNewCustomerService';
 import AppError from '../../errors/AppError';

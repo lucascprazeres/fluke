@@ -6,7 +6,7 @@ import {
   ICustomer,
   ICustomersRepository,
   IUpdateCurrentPackages,
-} from '../interfaces';
+} from '../interfaces/customers';
 
 export default class CustomersRepository implements ICustomersRepository {
   async create(data: ICreateCustomer): Promise<ICustomer> {

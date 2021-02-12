@@ -1,11 +1,11 @@
 import { inject, injectable } from 'tsyringe';
 import dbclient from '../database/connection';
+import { ICustomersRepository } from '../interfaces/customers';
 import {
   ICreateOrder,
-  ICustomersRepository,
   IOrder,
   IProductOrdersRepository,
-} from '../interfaces';
+} from '../interfaces/orders';
 
 @injectable()
 export default class ProductOrdersRepository

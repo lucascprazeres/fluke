@@ -2,7 +2,7 @@ import AppError from '../../errors/AppError';
 import {
   IAuthenticateCustomerService,
   ICustomersRepository,
-} from '../../interfaces';
+} from '../../interfaces/customers';
 import AuthenticateCustomerService from '../../services/AuthenticateCustomerService';
 import FakeCustomersRepostory from '../../__mock__/FakeCustomersRepository';
 

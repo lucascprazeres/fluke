@@ -7,7 +7,7 @@ import {
   IAuthenticateCustomerService,
   IAuthenticationResponse,
   ICustomersRepository,
-} from '../interfaces';
+} from '../interfaces/customers';
 
 import authConfig from '../config/authConfig';
 
@@ -22,7 +22,7 @@ export default class AuthenticateCustomerService
   async execute(data: IAuthenticateCustomer): Promise<IAuthenticationResponse> {
     const { CPF, password } = data;
 
-    const foundCustomer = await this.customersRepository.findByProperty(
+    const foundCustomer = await this.customersRepository.findByCommonProperty(
       'CPF',
       CPF,
     );
