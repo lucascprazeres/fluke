@@ -9,7 +9,7 @@ Esse repositório é um teste técnico aplicado como seleção para desenvolvedo
 ## 🏆 Desafios Propostos
 
 - [Exercício 1](./fluke-api)
-- [Exercício 2](./print-circle)
+- [Exercício 2](./draw-circle)
 
 ## ⬇️ Clonando o repositório
 
@@ -29,5 +29,5 @@ cd draw-circle # exercício 2
 --- 
 
 <div align=center>
-  <p>Made with love by <a href="">Lucas Prazeres</a></p>
+  <p>Feito com 💚 por <a href="https://www.linkedin.com/in/lucas-prazeres/">Lucas Prazeres</a></p>
 </div>
