@@ -21,9 +21,10 @@ Esse README cobre os principais aspectos do projeto, em várias seções. Para a
 * [Fluxo da aplicação](#Fluxo-da-aplicação)
 * [Estrutura de pastas](#Estrutura-de-pastas)
 * [Design Patterns](#Principais-Design-Patterns-e-conceitos-aplicados)
-* [Conexão com o banco de dados]()
-* [Segurança]()
-* [Possíveis melhorias no projeto]()
+* [Middlewares customizados](#Middlewares-customizados)
+* [Conexão com o banco de dados](#Conexão-com-o-banco-de-dados)
+* [Segurança](#Segurança)
+* [Possíveis melhorias no projeto](#Possíveis-melhorias-no-projeto)
 
 ## Tecnologias utilizadas
 
@@ -330,3 +331,41 @@ O fluxo percorrido a cada requisição, pode ser representado pelo diagrama.
 - **Single Responsibility Principle**: Orienta o uso dos demais padrões e permite que se crie um sistema de fácil compreensão e manutenção, visto que as responsabilidades são bem definidas.
 - **Repository Pattern**: Permite que os detalhes de implementação do banco de dados se concentrem em um só lugar, facilitando a localização de bugs e a realização de alterações em queries.
 - **Service Pattern**: Isola as regras de negócio do restante do sistema, pertimitindo que sejam definidas de maneira clara e distinguível dos demais componentes.
+
+## Middlewares customizados
+
+A aplicação contém seus middlewares próprios, responsáveis por funções bem variadas.
+
+- **ensureAuthenticated**: Como o nome sugere, é o middleware de autenticação da api. Ele utiliza da biblioteca jsonwebtoken para validar o token enviado no header da requisição, extrair o id do usuário e inseri-lo no corpo da requisição.
+
+- **globalErrorHandler**: É responsável por interceptar erros disparados em outros middlewares e convertê-los em respostas HTTP ao cliente.
+
+- **rateLimiter**: Protege as rotas de cargas pesadas, evitando assim os famosos *ataques de força-bruta* e também os *ataques de DDoS*.
+
+## Conexão com o banco de dados
+
+A conexão com o banco de dados nessa aplicação foi feita utilizando o driver nativo do mongodb, listado na seção de [tecnologias utilizadas](#Tecnologias-utilizadas). Por essa razão, não encontramos elementos de mais alto nível como definição de *Schemas* e *Models*, presentes em aplicações que utilizam ODM's como o **Mongoose** ou o ORM **TypeORM**. Essa conexão é feita unicamente criando uma única instância da classe MongoClient, inicializando-a ao subir o servidor e disponibilizando-a como módulo.
+
+## Segurança
+
+As bibliotecas utilizadas com foco na *segurança* da aplicação são:
+
+- **cors**: Permite ou restringe requisições vindas de domínios diferentes do domínio da API
+
+- **helmet**: Inclui até 11 middlewares responsáveis por adicionar headers HTTP especiais de validação, que evitam inúmeras vulnerabilidades conhecidas.
+
+- **rate-limiter-flexible**: Limita a quantidade de requisições aceitas pela API, prevenindo ataques de força-bruta e de DDoS.
+
+## Possíveis melhorias
+
+Essa aplicação utilizou-se de uma estrutura intermediária, com a devida separação das responsabilidades. Porém, muitos elementos foram postos juntos a fim de manter o projeto mais simples. No entanto, em cenários com mais funcionalidades em cada domínio, seria necessário incluir o conceito de DDD na aplicação, além de outras boas práticas. Isso poderia ser feito:
+
+- criando pastas logo abaixo de src, divindindo a aplicação em módulos (Ex: Customers, Orders e Portabilities) e reproduzindo a estrutura atual em cada uma delas, dividindo serviços, controllers e repositórios.
+
+- Isolando arquivos que contenham detalhes de implementação de bancos de dados e http em camadas de infraestrutura e o restante (composto por regras de negócio), em camadas de domínio.
+
+- Separarando as rotas de acordo com os módulos
+
+- Adicionando testes de integração às rotas
+
+- Isolando serviços de bibliotecas como jwt e bcryptjs em classes denominadas Providers, obedecendo o Dependency Inversion Principle e criando uma interface padrão para facilitar a substituição dessas bibliotecas, se necessário.
