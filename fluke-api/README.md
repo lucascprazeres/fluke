@@ -36,6 +36,8 @@ Esse README cobre os principais aspectos do projeto, em várias seções. Para a
 * [celebrate](https://github.com/arb/celebrate)
 * [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken#readme)
 * [cors middleware](https://github.com/expressjs/cors#readme)
+* [helmet](https://helmetjs.github.io/)
+* [rate-limiter-flexible](https://github.com/animir/node-rate-limiter-flexible#readme)
 * [mongodb](https://github.com/mongodb/node-mongodb-native)
 
 ## Requisitos
@@ -59,7 +61,7 @@ cd fluke-api
 yarn
 ```
 
-A seguir, faça uma cópia do arquivo *.env.example* e renomeie para *.env*. Agora é necessário preencher as variáveis de ambiente com:
+A seguir, faça uma cópia do arquivo *.env.example*, que contém valores padrão das variáveis de ambiente utilizadas, e renomeie para *.env*. Agora é necessário preencher dessas variáveis com:
 
 * **APP_PORT**: A porta na qual o servidor deve rodar (Ex: 3333).
 
@@ -253,7 +255,7 @@ Solicita a abertura de um ticket de portabilidade para um usuário
 
 ### GET - /portabilities (Autenticada)
 
-Lista todos os tickets de portabilitade abertos para determinado usuário
+Lista todos os tickets de portabilidade abertos para determinado usuário
 
 **resposta (JSON)**
 
@@ -298,7 +300,7 @@ O fluxo percorrido a cada requisição, pode ser representado pelo diagrama.
 
 * O primeiro componente a interagir com a requisição é o *Router*, elemento do framework expressjs, responsável por encaminhar a requisição para o controlador correto, dependendo da rota selecionada.
 
-* Os *Controladores*, por sua vez, têm como únicas responsabilidades receber os dados da requisição, encaminhná-los aos serviços e devolver uma resposta ao cliente.
+* Os *Controladores*, por sua vez, têm como únicas responsabilidades receber os dados da requisição, encaminhá-los aos serviços e devolver uma resposta ao cliente.
 
 * Os *Serviços*, oriundos do *Service Pattern*, são classes responsáveis por executar uma única tarefa específica (por isso apenas um método), lidando com as regras de negócio envolvidas. Após aplicar as regras, eles encaminham as informações a serem manipuladas no banco de dados para os Repositórios.
 
@@ -326,7 +328,7 @@ O fluxo percorrido a cada requisição, pode ser representado pelo diagrama.
 
 ## Principais Design Patterns e conceitos aplicados
 
-- **Depency Injection**: Usado para desacoplar as classes do sistema, permitindo que a troca de sua implementação interna seja feita sem afetar os lugares em que são usadas, desde que respeitem da interface definida.
+- **Depency Injection**: Usado para desacoplar as classes do sistema, permitindo que a troca de sua implementação interna seja feita sem afetar os lugares em que são usadas, desde que respeitem a interface definida.
 - **Dependency Inversion Principle**: Também permite maior desacoplamento, uma vez que as classes dependem de abstrações e não de implementações. Sendo assim, elas não se importam com o *como* os métodos externos que utilizam funcionam.
 - **Single Responsibility Principle**: Orienta o uso dos demais padrões e permite que se crie um sistema de fácil compreensão e manutenção, visto que as responsabilidades são bem definidas.
 - **Repository Pattern**: Permite que os detalhes de implementação do banco de dados se concentrem em um só lugar, facilitando a localização de bugs e a realização de alterações em queries.
@@ -336,7 +338,7 @@ O fluxo percorrido a cada requisição, pode ser representado pelo diagrama.
 
 A aplicação contém seus middlewares próprios, responsáveis por funções bem variadas.
 
-- **ensureAuthenticated**: Como o nome sugere, é o middleware de autenticação da api. Ele utiliza da biblioteca jsonwebtoken para validar o token enviado no header da requisição, extrair o id do usuário e inseri-lo no corpo da requisição.
+- **ensureAuthenticated**: Como o nome sugere, é o middleware de autenticação da api. Ele utiliza da biblioteca jsonwebtoken para validar o token enviado no header da requisição, extrair o id do usuário e inseri-lo no corpo da mesma.
 
 - **globalErrorHandler**: É responsável por interceptar erros disparados em outros middlewares e convertê-los em respostas HTTP ao cliente.
 
@@ -344,7 +346,7 @@ A aplicação contém seus middlewares próprios, responsáveis por funções be
 
 ## Conexão com o banco de dados
 
-A conexão com o banco de dados nessa aplicação foi feita utilizando o driver nativo do mongodb, listado na seção de [tecnologias utilizadas](#Tecnologias-utilizadas). Por essa razão, não encontramos elementos de mais alto nível como definição de *Schemas* e *Models*, presentes em aplicações que utilizam ODM's como o **Mongoose** ou o ORM **TypeORM**. Essa conexão é feita unicamente criando uma única instância da classe MongoClient, inicializando-a ao subir o servidor e disponibilizando-a como módulo.
+A conexão com o banco de dados nessa aplicação foi feita utilizando o driver nativo do mongodb, listado na seção de [tecnologias utilizadas](#Tecnologias-utilizadas). Por essa razão, não encontramos elementos de mais alto nível como definição de *Schemas* e *Models*, presentes em aplicações que utilizam ODM's como o **Mongoose** ou o ORM **TypeORM**. Essa conexão é feita unicamente criando uma instância da classe MongoClient, inicializando-a ao subir o servidor e disponibilizando-a como módulo.
 
 ## Segurança
 
@@ -354,7 +356,7 @@ As bibliotecas utilizadas com foco na *segurança* da aplicação são:
 
 - **helmet**: Inclui até 11 middlewares responsáveis por adicionar headers HTTP especiais de validação, que evitam inúmeras vulnerabilidades conhecidas.
 
-- **rate-limiter-flexible**: Limita a quantidade de requisições aceitas pela API, prevenindo ataques de força-bruta e de DDoS.
+- **rate-limiter-flexible**: Limita a taxa de requisições aceitas pela API, prevenindo ataques de força-bruta e de DDoS.
 
 ## Possíveis melhorias
 
