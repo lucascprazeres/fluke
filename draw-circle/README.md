@@ -5,6 +5,10 @@
 Criar uma função que receba um valor inteiro entre 1 e 100 e imprima um círculo
 cujo raio de caracteres é o valor inserido, no terminal de execução.
 
+## Tecnologias utilizadas
+
+Esse programa foi feito utilizando a linguagem [Python](https://www.python.org/). Portanto, certifique-se de possuir o interpretador da linguagem instalado em sua máquina.
+
 ## Lógica desenvolvida
 
 Sabendo que as entradas são restritas a valores inteiros no intervalo dado, a primeira
@@ -18,7 +22,7 @@ A lógica principal encontra-se nos loops que vem em sequência, que iteram do v
 De forma simplificada, utilizamos as posições de *x* e de *y* que se pretende analisar, bem como
 os valores correspondentes ao centro da circuferência (*xc* e *yc*), do lado direito da equação. Se esse valor for menor ou igual ao quadrado do raio (lado esquerdo), então nosso ponto encontra-se dentro do círculo. Esse teste é feito em cada posição e, caso ela pertença ao círculo, imprime-se um "*", caso contrário, imprime-se um espaço vazio.
 
-Ao final da iteração, temos um círculo gerado com os pontos que passaram no teste.
+Ao final do loop, temos um círculo gerado com os pontos que passaram no teste.
 
 <br/>
 <div align="center">
